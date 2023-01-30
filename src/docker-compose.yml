@@ -1,0 +1,54 @@
+version: '3.4'
+services:
+  mariadb:
+    build: 
+      context: .
+      dockerfile: requirements/mariadb/Dockerfile
+    container_name: mariadb
+    image: mariadb
+    volumes:
+        - wp-data:/var/lib/mysql
+    init: true
+    env_file:
+      - .env
+    restart: on-failure
+    networks:
+      - inception
+  # wordpress:
+  #   build: 
+  #     context: .
+  #     dockerfile: requirements/wordpress/Dockerfile
+  #   container_name: wordpress
+  #   image: wordpress
+  #   volumes:
+  #       - wp-data:/var/lib/mysql
+  #   init: true
+  #   env_file:
+  #     - .env
+    # restart: on-failure
+    # networks:
+    #   - inception
+  nginx:
+    build: 
+      context: .
+      dockerfile: requirements/nginx/Dockerfile
+    container_name: nginx
+    image: nginx
+    volumes:
+        - wp-data:/var/lib/nginx
+    init: true
+    env_file:
+      - .env
+    restart: on-failure
+    networks:
+      - inception
+volumes:
+  wp-data:
+    driver : local
+    driver_opts:
+      device: /home/$USER/data/
+      type: none
+      o: bind
+networks:
+  inception:
+    driver: bridge
