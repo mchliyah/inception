@@ -16,9 +16,9 @@ stop:
 	docker stop $$(docker ps -aq)
 restart: stop up
 logs:
-	docker-compose -f src/docker-compose.yml logs --tail=100 -f $(c)
+	docker-compose -f src/docker-compose.yml logs -f $(c)
 # logs-api:
-# 	docker-compose -f src/docker-compose.yml logs --tail=100 -f api
+# 	docker-compose -f src/docker-compose.yml logs -f api
 ps:
 	docker-compose -f src/docker-compose.yml ps
 clean :
