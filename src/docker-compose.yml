@@ -14,28 +14,32 @@ services:
     restart: on-failure
     networks:
       - inception
-  # wordpress:
-  #   build: 
-  #     context: .
-  #     dockerfile: requirements/wordpress/Dockerfile
-  #   container_name: wordpress
-  #   image: wordpress
-  #   volumes:
-  #       - wp-data:/var/lib/mysql
-  #   init: true
-  #   env_file:
-  #     - .env
-    # restart: on-failure
-    # networks:
-    #   - inception
+  wordpress:
+    build: 
+      context: .
+      dockerfile: requirements/wordpress/Dockerfile
+    container_name: wordpress
+    image: wordpress:v1
+    depends_on:
+      - mariadb
+    volumes:
+        - wp-data:/var/www/html
+    init: true
+    env_file:
+      - .env
+    restart: on-failure
+    networks:
+      - inception
   nginx:
     build: 
       context: .
       dockerfile: requirements/nginx/Dockerfile
     container_name: nginx
     image: nginx:v1
+    depends_on:
+      - wordpress
     volumes:
-        - wp-data:/var/lib/nginx
+        - wp-data:/var/www/html
     init: true
     env_file:
       - .env
