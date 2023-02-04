@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.9'
 services:
   mariadb:
     build: 
@@ -7,13 +7,13 @@ services:
     container_name: mariadb
     image: mariadb:v1
     volumes:
-        - wp-data:/var/lib/mysql
-    init: true
+        - db:/var/lib/mysql
     env_file:
       - .env
-    restart: on-failure
+    restart: always
     networks:
       - inception
+
   wordpress:
     build: 
       context: .
@@ -23,13 +23,18 @@ services:
     depends_on:
       - mariadb
     volumes:
-        - wp-data:/var/www/html
-    init: true
+        - wordpress:/var/www/html
+    environment:
+      DB_HOST: mariadb
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_NAME: ${DB_NAME}
     env_file:
       - .env
-    restart: on-failure
+    restart: always
     networks:
       - inception
+
   nginx:
     build: 
       context: .
@@ -39,22 +44,29 @@ services:
     depends_on:
       - wordpress
     volumes:
-        - wp-data:/var/www/html
-    init: true
+        - "wordpress:/var/www/html"
     env_file:
       - .env
-    restart: on-failure
+    restart: always
     ports:
       - 443:443
     networks:
       - inception
+
 volumes:
-  wp-data:
+  wordpress:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/mchliyah/data/wordpress
+      o: bind
+  db:
     driver : local
     driver_opts:
-      device: /home/$USER/data/
+      device: /home/mchliyah/data/db
       type: none
       o: bind
+
 networks:
   inception:
     driver: bridge

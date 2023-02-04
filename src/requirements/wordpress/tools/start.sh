@@ -1,17 +1,25 @@
-#!/bin/bash
+#!/bin/sh
 
-source .env
+if [ -f ./wordpress/wp-config.php ]
+then
+	echo "wordpress already downloaded"
+else
+	#Download wordpress
+	wget https://wordpress.org/latest.tar.gz
+	tar -xzvf latest.tar.gz
+	rm -rf latest.tar.gz
 
-wp core download --allow-root
+	#Update configuration file
+	rm -rf /etc/php/7.3/fpm/pool.d/www.conf
+	mv ./www.conf /etc/php/7.3/fpm/pool.d/
 
-wp config create --dbname=$MDB_NAME \
-    --dbuser=$MDB_USER --dbpass=$MDB_PASS \
-    --dbhost=$MDB_HOST --allow-root
+	#Inport env variables in the config file
+	cd /var/www/html/wordpress
+	sed -i "s/username_here/$DB_USER/g" wp-config-sample.php
+	sed -i "s/password_here/$DB_PASS/g" wp-config-sample.php
+	sed -i "s/localhost/$DB_HOST/g" wp-config-sample.php
+	sed -i "s/database_name_here/$DB_NAME/g" wp-config-sample.php
+	mv wp-config-sample.php wp-config.php
+fi
 
-wp core install --url=$DOMAIN_NAME \
-	--title=$TITLE \
-	--admin_user=$ADMIN_USER \
-	--admin_password=$ADMIN_PASS \
-	--admin_email=$ADMIN_EMAIL \
-	--allow-root
-php-fpm7.3 -R -F
+exec "$@"

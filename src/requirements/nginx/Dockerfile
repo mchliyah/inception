@@ -3,13 +3,13 @@ FROM debian:buster
 RUN apt-get update
 RUN apt-get install -y nginx openssl
 
-COPY requirements/nginx/srcs/default /etc/nginx/sites-enabled/default
 
-RUN openssl req -x509 -nodes -days 365 \
--subj "/C=FR/ST=Paris/L=Paris/O=42/OU=42/CN=mchliyah-x360-G2" \
--addext "subjectAltName=DNS:mchliyah-x360-G2" \
+RUN openssl req -x509 -sha256 -nodes -days 365 \
+-subj "/C=FR/ST=Paris/L=Paris/O=42 School/OU=llescure/CN=mchliyah.42.fr" \
 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key \
 -out /etc/ssl/certs/nginx-selfsigned.crt;
+
+COPY requirements/nginx/srcs/nginx.conf /etc/nginx/conf.d
 
 EXPOSE 443
 

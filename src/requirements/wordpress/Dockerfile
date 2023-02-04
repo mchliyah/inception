@@ -1,39 +1,34 @@
 FROM debian:buster
 
-WORKDIR /var/www/html
-# Install dependencies
+#Install necessary package from php
 
-COPY .env .env
-RUN apt update -y \
-    && apt install curl php php-mysql php-fpm mariadb-client -y \
-    && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
-	&& apt clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get -y install \
+wget \
+php \
+php-cgi \
+php-mysql \
+php-fpm \
+php-pdo \
+php-gd php-cli \
+php-mbstring \
+&& rm -rf /var/lib/apt/lists/*
 
-# Copy the existing wp-config-sample.php to create the wp-config.php file
-RUN chmod +x wp-cli.phar && mkdir /run/php/
-RUN mv wp-cli.phar /usr/local/bin/wp
-# COPY requirements/wordpress/srcs/wp-config.php wp-config.php
-COPY requirements/wordpress/tools/ /bin
-# RUN chmod +x /bin/start.sh
+#Copy the necessary tools to download wordpress
 
-# Replace the values in the wp-config.php file with environment variables
-# RUN sed -i "s/database_name_here/$MDB_NAME/g" wp-config.php \
-#     && sed -i "s/username_here/$MDB_USER/g" wp-config.php \
-#     && sed -i "s/password_here/$MDB_PASS/g" wp-config.php \
-#     && sed -i "s/localhost/$MDB_HOST/g" wp-config.php
+COPY requirements/wordpress/srcs/www.conf /var/www/html/
 
-COPY requirements/wordpress/srcs/www.conf /etc/php/7.3/fpm/pool.d
+#Create the folder to enable php start
+
+RUN mkdir /run/php
+
+#Launch script
+
+COPY requirements/wordpress/tools/start.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/start.sh
+ENTRYPOINT ["start.sh"]
+
+WORKDIR /var/www/html/
 
 EXPOSE 9000
-RUN ["chmod", "+x", "/bin/start.sh"]
-# RUN wp core download --allow-root
-# RUN wp config create --dbname=$MDB_NAME \
-#     --dbuser=$MDB_USER --dbpass=$MDB_PASS \
-#     --dbhost=$MDB_HOST --allow-root
-# RUN wp core install --url=$DOMAIN_NAME \
-# 	--title=$TITLE \
-# 	--admin_user=$ADMIN_USER \
-# 	--admin_password=$ADMIN_PASS \
-# 	--admin_email=$ADMIN_EMAIL \
-# 	--allow-root
-# RUN php-fpm7.3 -R -F
+
+CMD ["/usr/sbin/php-fpm7.3", "-F"]
