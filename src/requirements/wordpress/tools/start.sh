@@ -55,6 +55,4 @@ wp core install --url=$DOMAIN_NAME \
 --allow-root
 
 # mv wp-config-sample.php wp-config.php
-
-/usr/sbin/php-fpm7.3 -F
 exec "$@"

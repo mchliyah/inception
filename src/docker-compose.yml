@@ -25,7 +25,7 @@ services:
     volumes:
         - wordpress:/var/www/html
     environment:
-      DB_HOST: mariadb
+      DB_HOST: ${DB_NAME}
       DB_USER: ${DB_USER}
       DB_PASS: ${DB_PASS}
       DB_NAME: ${DB_NAME}
@@ -52,6 +52,44 @@ services:
       - 443:443
     networks:
       - inception
+
+  redis:
+    build: 
+      context: .
+      dockerfile: requirements/bonus/redis/Dockerfile
+    container_name: redis
+    image: redis:v1
+    restart: always
+    volumes:
+      - db:/data
+    networks:
+      - inception
+    env_file:
+      - .env
+
+  ftps:
+    build: 
+      context: .
+      dockerfile: requirements/bonus/ftp/Dockerfile
+    container_name: ftps
+    image: ftps:v1
+    restart: always
+    networks:
+      - inception
+    env_file:
+      - .env
+
+  adminer:
+    build: 
+      context: .
+      dockerfile: requirements/bonus/adminer/Dockerfile
+    container_name: adminer
+    image: adminer:v1
+    restart: always
+    networks:
+      - inception
+    env_file:
+      - .env
 
 volumes:
   wordpress:

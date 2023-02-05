@@ -41,4 +41,7 @@ WORKDIR /var/www/html
 COPY requirements/wordpress/tools/start.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/start.sh
 EXPOSE 9000
+
 ENTRYPOINT ["start.sh"]
+
+CMD ["php-fpm7.3", "-F"]
