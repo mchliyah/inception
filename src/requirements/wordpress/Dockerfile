@@ -2,12 +2,13 @@ FROM debian:buster
 
 #Install necessary package from php
 
-# RUN apt update -y \
-#     && apt install curl php php-mysql php-fpm mariadb-client -y \
+RUN apt update -y \
+    && apt install curl php php-mysql php-fpm mariadb-client -y
+
 #     && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
 # 	&& apt clean && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && apt-get -y install \
+RUN apt-get -y install \
 wget \
 php \
 php-cgi \
@@ -18,7 +19,7 @@ php-gd php-cli \
 php-mbstring \
 && rm -rf /var/lib/apt/lists/*
 
-# Copy the existing wp-config-sample.php to create the wp-config.php file
+#Create the folder to enable php start
 RUN mkdir -p /run/php
 # RUN mkdir /var/www
 # RUN mkdir /var/www/html
@@ -32,7 +33,6 @@ RUN mkdir -p /run/php
 
 COPY requirements/wordpress/srcs/www.conf /etc/php/7.3/fpm/pool.d
 
-#Create the folder to enable php start
 
 
 #Launch script
