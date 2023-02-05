@@ -44,7 +44,7 @@ services:
     depends_on:
       - wordpress
     volumes:
-        - "wordpress:/var/www/html"
+        - wordpress:/var/www/html
     env_file:
       - .env
     restart: always
@@ -58,7 +58,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/mchliyah/data/wordpress
+      device: /home/mchliyah/data
       o: bind
   db:
     driver : local

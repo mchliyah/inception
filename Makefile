@@ -22,11 +22,11 @@ logs:
 ps:
 	docker-compose -f src/docker-compose.yml ps
 clean :
-	docker stop $$(docker ps -qa);\
-	docker rm $$(docker ps -qa);\
+	docker rm -f $$(docker ps -qa);\
 	docker rmi -f $$(docker images -qa);\
-	docker volume rm $$(docker volume ls -q);\
-	docker network rm $$(docker network ls -q);
-fclean : clean
+	docker volume rm -f $$(docker volume ls -q);\
+	docker network rm -f $$(docker network ls -q);
+fclean :
 	docker system prune -a --force
-	sudo rm -rf ~/data/*
+	sudo rm -rf ~/data/db/*
+	sudo rm -rf ~/data/wordpress/*
