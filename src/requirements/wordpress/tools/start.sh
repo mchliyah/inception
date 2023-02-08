@@ -43,12 +43,12 @@ wp core download --allow-root
 # sed -i "s/database_name_here/$DB_NAME/g" wp-config-sample.php
 # mv wp-config-sample.php wp-config.php
 
-wp config create --dbname=$MDB_NAME \
-    --dbuser=$MDB_USER --dbpass=$MDB_PASS \
-    --dbhost=$MDB_HOST --allow-root
+wp config create --dbname=$DB_NAME \
+    --dbuser=$DB_USER --dbpass=$DB_PASS \
+    --dbhost=$DB_HOST --allow-root
 
 wp core install --url=$DOMAIN_NAME \
---title=$TITLE \
+--title=$SITE_TITLE \
 --admin_user=$ADMIN_USER \
 --admin_password=$ADMIN_PASS \
 --admin_email=$ADMIN_EMAIL \

@@ -28,5 +28,4 @@ clean :
 	docker network rm -f $$(docker network ls -q);
 fclean :
 	docker system prune -a --force
-	sudo rm -rf ~/data/*
-	sudo mkdir ~/data/db
+	sudo rm -rf ~/data/*/*

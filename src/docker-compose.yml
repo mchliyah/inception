@@ -25,10 +25,15 @@ services:
     volumes:
         - wordpress:/var/www/html
     environment:
-      DB_HOST: ${DB_NAME}
+      DB_HOST: ${DB_HOST}
       DB_USER: ${DB_USER}
       DB_PASS: ${DB_PASS}
       DB_NAME: ${DB_NAME}
+      DOMAIN_NAME: ${DOMAIN_NAME}
+      SITE_TITLE: ${SITE_TITLE}
+      ADMIN_USER: ${ADMIN_USER}
+      ADMIN_PASS: ${ADMIN_PASS}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
     env_file:
       - .env
     restart: always
@@ -60,8 +65,10 @@ services:
     container_name: redis
     image: redis:v1
     restart: always
+    depends_on:
+      - wordpress
     volumes:
-      - db:/data
+      - wordpress:/var/www/html
     networks:
       - inception
     env_file:
@@ -96,7 +103,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/mchliyah/data
+      device: /home/mchliyah/data/wordpress
       o: bind
   db:
     driver : local
@@ -108,3 +115,4 @@ volumes:
 networks:
   inception:
     driver: bridge
+    
