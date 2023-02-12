@@ -83,6 +83,9 @@ services:
     restart: always
     networks:
       - inception
+    environment:
+      - FTP_USER=${FTP_USER}
+      - FTP_PASS=${FTP_PASS}
     env_file:
       - .env
 

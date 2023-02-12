@@ -4,10 +4,7 @@ FROM debian:buster
 
 RUN apt update -y \
     && apt install curl php php-mysql php-fpm mariadb-client -y
-
-#     && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
-# 	&& apt clean && rm -rf /var/lib/apt/lists/*
-
+	
 RUN apt-get -y install \
 wget \
 php \
@@ -21,16 +18,6 @@ php-mbstring \
 
 #Create the folder to enable php start
 RUN mkdir -p /run/php
-# RUN mkdir /var/www
-# RUN mkdir /var/www/html
-# RUN chmod +x wp-cli.phar\
-# 	&& mv wp-cli.phar /usr/local/bin/wp \
-# 	&& wp core download --path=/var/www/html --allow-root \
-# 	&& cp /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
-# RUN mv wp-cli.phar /usr/local/bin/wp
-
-#Copy the necessary tools to download wordpress
-
 COPY requirements/wordpress/srcs/www.conf /etc/php/7.3/fpm/pool.d
 
 
