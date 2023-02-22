@@ -30,5 +30,8 @@ COPY requirements/bonus/ftp/tools/vsftpd.conf /etc/vsftpd.conf
 
 # RUN service vsftpd stop
 
-ENTRYPOINT ["/script.sh"]
-CMD ["vsftpd"]
+# CMD ["/script.sh"]
+# CMD ["vsftpd"]
+
+
+CMD ["/script.sh"]
