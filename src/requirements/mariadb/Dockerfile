@@ -11,8 +11,8 @@ RUN chmod 777 /var/run/mysqld
 COPY requirements/tools/ tools/
 COPY requirements/mariadb/srcs/50-server.cnf /etc/mysql/mariadb.conf.d/
 
-RUN	chmod +x tools/init.sh && \
-	./tools/init.sh
+RUN	chmod +x tools/init.sh
+RUN	./tools/init.sh
 
 EXPOSE 3306
 

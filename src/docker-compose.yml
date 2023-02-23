@@ -84,7 +84,7 @@ services:
     depends_on:
       - wordpress
     volumes:
-      - wordpress:/home/ftps
+      - wordpress:/home/mchliyah/ftp
     networks:
       - inception
     ports:
@@ -102,9 +102,13 @@ services:
       dockerfile: requirements/bonus/adminer/Dockerfile
     container_name: adminer
     image: adminer:v1
+    depends_on:
+      - mariadb
     restart: always
     networks:
       - inception
+    ports:
+      - 8000:8000
     env_file:
       - .env
 
