@@ -78,6 +78,7 @@ services:
     build: 
       context: .
       dockerfile: requirements/bonus/ftp/Dockerfile
+    init: true
     container_name: ftps
     image: ftps:v1
     restart: always

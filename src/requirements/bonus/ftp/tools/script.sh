@@ -1,36 +1,10 @@
 #!/bin/sh
-useradd -m $FTP_USER
+adduser --disabled-password --gecos '' $FTP_USER
 echo $FTP_USER:$FTP_PASS | chpasswd
-echo "$FTP_USER" | tee -a /etc/vsftpd.userlist
+mkdir -p /home/$FTP_USER/ftp
 chown -R $FTP_USER:$FTP_USER /home/$FTP_USER/ftp
-mkdir -p /home/$FTP_USER/dir
-chown -R $FTP_USER:$FTP_USER /home/$FTP_USER/dir
+mkdir -p /home/$FTP_USER/ftp/files
+chown -R $FTP_USER:$FTP_USER /home/$FTP_USER/ftp/files
+echo "$FTP_USER" | tee -a /etc/vsftpd.userlist
 
 vsftpd
-
-# service vsftpd start
-
-# # Add the USER, change his password and declare him as the owner of wordpress folder and all subfolders
-
-# # adduser $FTP_USER --disabled-password
-# if id "$FTP_USER" >/dev/null 2>&1; then
-#     echo "User $FTP_USER already exists"
-# else
-#     # Add user
-#     adduser "$FTP_USER" --disabled-password
-#     echo "User $FTP_USER created"
-# fi
-
-# echo "$FTP_USER:$FTP_PASS" | /usr/sbin/chpasswd
-
-# #Add the FTP user to the list of allowed users in the vsftpd configuration file /etc/vsftpd.userlist using the tee command.
-
-# echo "$FTP_USER" | tee -a /etc/vsftpd.userlist 
-
-
-# # mkdir -p /home/$FTP_USER/ftp
-
-
-# # chown -R $FTP_USER:$FTP_USER /home/$FTP_USER/ftp
-
-# service vsftpd stop

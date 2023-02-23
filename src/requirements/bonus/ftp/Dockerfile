@@ -10,6 +10,8 @@ RUN  chmod +x /script.sh
 
 COPY requirements/bonus/ftp/tools/vsftpd.conf /etc/vsftpd.conf
 
+CMD ["/script.sh"]
+
 # RUN service vsftpd start
 
 # # Add the USER, change his password and declare him as the owner of wordpress folder and all subfolders
@@ -33,5 +35,3 @@ COPY requirements/bonus/ftp/tools/vsftpd.conf /etc/vsftpd.conf
 # ENTRYPOINT ["/script.sh"]
 # CMD ["vsftpd"]
 
-
-CMD ["/script.sh"]
