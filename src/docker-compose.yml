@@ -58,6 +58,7 @@ services:
     restart: always
     ports:
       - 443:443
+      - 80:80
     networks:
       - inception
 
@@ -94,8 +95,6 @@ services:
       - inception
     ports:
       - 21:21
-      - 20:20
-      - 21000-21010:21000-21010
     env_file:
       - .env
 
@@ -136,6 +135,18 @@ services:
     env_file:
       - .env
 
+  siteweb:
+    build:
+      context: .
+      dockerfile: requirements/bonus/siteweb/Dockerfile
+    container_name: siteweb
+    image: siteweb:v1
+    init: true
+    restart: always
+    networks:
+      - inception
+    ports:
+      - 80:80
 
 volumes:
   wordpress:
