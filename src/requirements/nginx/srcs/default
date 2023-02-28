@@ -27,18 +27,9 @@ server {
 		location /adminer/ {
 		       proxy_pass http://adminer:8000;
 		}
-}
 
-server {
-        listen 80;
-        listen [::]:80;
-
-		server_name mchliyah.42.fr www.mchliyah.42.fr;
-		root /var/www/html;
-
-		index index.php index.html;
-
-        location / {
-            proxy_pass http://siteweb:3333;
-  }
+    location /siteweb/ {
+        proxy_pass https://siteweb:3333;
+        include proxy_params;
+    }
 }

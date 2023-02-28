@@ -2,8 +2,7 @@
 FROM debian:buster
 
 # Install necessary packages and dependencies
-RUN apt-get update && apt-get install -y \
-  curl \
+RUN apt-get update && apt-get install -y curl \
   && rm -rf /var/lib/apt/lists/*
 
 # Download the latest CAdvisor binary
