@@ -3,7 +3,7 @@ THIS_FILE := $(lastword $(MAKEFILE_LIST))
 .PHONY: help build up start down destroy stop restart logs logs-api ps login-timescale login-api db-shell
 
 build:
-	docker-compose -f src/docker-compose.yml build --no-cache $(c)
+	docker-compose -f src/docker-compose.yml build $(c)
 up:
 	docker-compose -f src/docker-compose.yml up -d $(c)
 start:
